@@ -423,7 +423,10 @@ def set_description(module):
     name = module.attributes['name']
     module.log('Invoked set_description for eos_ethernet[%s] '
                'with value %s' % (name, value))
-    module.node.api('interfaces').set_description(name, value)
+    if value == '':
+        module.node.api('interfaces').set_description(name, default=True)
+    else:
+        module.node.api('interfaces').set_description(name, value)
 
 def set_enable(module):
     """ Configures the enable attribute for the interface
